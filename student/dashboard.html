@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UniCharm</title>
+
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
 </head>
 
 <body>
-<div>
-    <header>
+<div id="headerDiv">
+    <header >
         <input type="text" id="searchBar">
 
         <div id="profile">
@@ -20,16 +22,42 @@
         </div>
 
         <div id="headerIcons">
-            <img id="settings" >
-            <img id="notification">
+            <img id="settings_icon" >
+            <img id="notification_icon">
 
         </div>
 
     </header>
 </div>
 
+<div id="navigationBar">
+    <img src="/assets/images/bml_logo.png" width="130">
+    <div id="dashboard">Dashboard</div>
+    <div id="fees">Fees</div>
+    <div id="check_profile">Profile</div>
+    <div id="courses">Courses</div>
+    <div id="hostel">Hostel</div>
+    <div id="result">Result</div>
+    <div id="notice">Notice</div>
+    <div id="schedule">Schedule</div>
+    
+    <div id="logout">Logout</div>
+
+</div>
+
+<div id="mainContent">
+    <div id="attendanceBox"></div>
+    <div id="exploreMoreOptions"></div>
+</div>
+
 </body>
 
+<div id="informationBar">
+    <div id="todo"></div>
+    <div id="timetabel"></div>
+    <div id="assessment"></div>
+</div>
 
-<script src="dashboard.js"></script>
+
+<script src="/assets/js/dashboard.js"></script>
 </html>
