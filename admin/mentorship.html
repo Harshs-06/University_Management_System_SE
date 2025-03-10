@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/dashboard_admin_mentorship.css">
+    <title>Mentorship Management</title>
+</head>
+<body>
+    <div class="container">
+        <div id="navigationBar">
+            <img src="/assets/images/bml_logo.png" width="130">
+            <a href="/admin/dashboard.html">
+            <div id="dashboard">Dashboard</div>
+            </a>
+            <div id="check_profile">Profile</div>
+            <div id="courses">Courses</div>
+            <div id="notice">Notice</div>
+            <div id="schedule">Schedule</div>
+            <div id="logout">Logout</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-text">
+                    <h1>Mentorship Management</h1>
+                </div>
+                <div class="header-image">
+                    <img src="/assets/images/mentorship_icon.svg" alt="Mentorship Icon">
+                </div>
+            </div>
+        
+            <!-- Search Bar and Filters -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." class="search-input">
+                <select class="status-dropdown">
+                    <option value="">Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+                <select class="department-dropdown">
+                    <option value="">Department</option>
+                    <option value="CSE-1">CSE</option>
+                    <option value="CSE-2">ME</option>
+                    <option value="CSE-3">Ecom</option>
+                </select>
+                <button class="add-student-btn">Add Student</button>
+            </div>
+        
+            <!-- Tabs for department selection -->
+            <div class="tabs">
+                <button>CSE-1</button>
+                <button>CSE-2</button>
+                <button>CSE-3</button>
+                <button>CSE-4</button>
+                <button>CSE-5</button>
+                <button>CSE-6</button>
+            </div>
+        
+            <!-- Table for student information -->
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>BMU ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>230763</td>
+                        <td>Harsh</td>
+                        <td>Soni</td>
+                    </tr>
+                    <tr>
+                        <td>230763</td>
+                        <td>Harsh</td>
+                        <td>Soni</td>
+                    </tr>
+                    <tr>
+                        <td>230763</td>
+                        <td>Shivin</td>
+                        <td>Khandelwal</td>
+                    </tr>
+                    <tr>
+                        <td>230763</td>
+                        <td>Aditya</td>
+                        <td>Chawla</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>                
+    </div>
+</body>
+</html>

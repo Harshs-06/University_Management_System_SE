@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/dashboard_admin_mentorship.css">
+    <title>OD Management</title>
+</head>
+<body>
+    <div class="container">
+        <div id="navigationBar">
+            <img src="/assets/images/bml_logo.png" width="130">
+            <a href="/admin/dashboard.html">
+                <div id="dashboard">Dashboard</div>
+            </a>
+            <div id="check_profile">Profile</div>
+            <div id="courses">Courses</div>
+            <div id="notice">Notice</div>
+            <div id="schedule">Schedule</div>
+            <div id="logout">Logout</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-text">
+                    <h1>OD Management</h1>
+                </div>
+                <div class="header-image">
+                    <img src="/assets/images/mentorship_icon.svg" alt="OD Icon">
+                </div>
+            </div>
+        
+            <!-- Search Bar and Filters -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." class="search-input">
+                <select class="status-dropdown">
+                    <option value="">Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+        
+            <div class="od-requests">
+                <!-- Static OD Request Card -->
+                <div class="od-card">
+                    <h3>Hacked_Halwa</h3>
+                    <p><strong>Event:</strong> Hackathon</p>
+                    <p><strong>Status:</strong> Active</p>
+    
+                    <div class="od-actions">
+                        <button class="accept-btn" data-id="1">Accept</button>
+                        <button class="view-details-btn" data-id="1">View Details</button>
+                        <button class="reject-btn" data-id="1">Reject</button>
+                    </div>
+                </div>
+
+                <div class="od-card">
+                    <h3>Shivin</h3>
+                    <p><strong>Event:</strong> Science Fair 2025</p>
+                    <p><strong>Status:</strong> Inactive</p>
+    
+                    <div class="od-actions">
+                        <button class="accept-btn" data-id="2">Accept</button>
+                        <button class="view-details-btn" data-id="2">View Details</button>
+                        <button class="reject-btn" data-id="2">Reject</button>
+                    </div>
+                </div>
+
+                <!-- Example of a Single Student OD Request -->
+                <div class="od-card">
+                    <h3>Team Gamma</h3>
+                    <p><strong>Event:</strong> Haccacino</p>
+                    <p><strong>Status:</strong> Active</p>
+    
+                    <div class="od-actions">
+                        <button class="accept-btn" data-id="3">Accept</button>
+                        <button class="view-details-btn" data-id="3">View Details</button>
+                        <button class="reject-btn" data-id="3">Reject</button>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Modal for viewing details -->
+            <div id="details-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h3 id="modal-title">Details</h3>
+                    <p id="modal-reason">Reason</p>
+                    <ul id="modal-student-list" class="hidden"></ul>
+                    <button id="close-modal">Close</button>
+                </div>
+            </div>     
+        </div>                
+    </div>
+
+    <script>
+        // ==============================
+        // OD-MANAGEMENT (OD Requests)
+        // ==============================
+        const modal = document.getElementById("details-modal");
+
+        if (modal) {
+            console.log("OD-Management Page Detected!");
+
+            const acceptButtons = document.querySelectorAll(".accept-btn");
+            const rejectButtons = document.querySelectorAll(".reject-btn");
+            const viewDetailsButtons = document.querySelectorAll(".view-details-btn");
+            const modalTitle = document.getElementById("modal-title");
+            const modalReason = document.getElementById("modal-reason");
+            const modalStudentList = document.getElementById("modal-student-list");
+            const closeModal = document.getElementById("close-modal");
+
+            // Hardcoded data for static page (Simulates the response from a fetch call)
+            const odRequests = {
+                1: {
+                    teamName: "Hacked_Halwa",
+                    reason: "Participation in Hackathon",
+                    students: ["Shivin", "Harsh", "Disha","Palak"]
+                },
+                2: {
+                    teamName: "Shivin",
+                    reason: "Medical Reason",
+                    students: []
+                },
+                3: {
+                    teamName: "Hacktivators",
+                    reason: "Haccacino",
+                    students: ["Shivin","Aditya","Dhanush","Akshita"]
+                }
+            };
+
+            // Function to update status and remove the request card
+            function updateStatus(id, newStatus) {
+                const button = document.querySelector(`button[data-id='${id}']`);
+                if (button) {
+                    const card = button.closest(".od-card");
+                    if (card) {
+                        console.log(`Updating Status: ${newStatus} for ID: ${id}`);
+                        card.remove(); // Remove card after approval/rejection
+                    }
+                }
+            }
+
+            // Accept Button Event
+            acceptButtons.forEach(button => {
+                button.addEventListener("click", () => updateStatus(button.dataset.id, "Approved"));
+            });
+
+            // Reject Button Event
+            rejectButtons.forEach(button => {
+                button.addEventListener("click", () => updateStatus(button.dataset.id, "Rejected"));
+            });
+
+            // View Details Event
+            viewDetailsButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    const requestId = button.dataset.id;
+                    console.log("View Details Clicked! ID:", requestId);
+
+                    if (!requestId) {
+                        console.error("No request ID found on the button.");
+                        return;
+                    }
+
+                    const data = odRequests[requestId];
+
+                    if (data) {
+                        console.log("Fetched Data:", data);
+
+                        modalTitle.textContent = data.teamName || "Unknown Team";
+                        modalReason.textContent = `Reason: ${data.reason || "No reason provided."}`;
+
+                        if (data.students && Array.isArray(data.students) && data.students.length > 0) {
+                            modalStudentList.innerHTML = "<strong>Students:</strong>";
+                            data.students.forEach(student => {
+                                const li = document.createElement("li");
+                                li.textContent = student;
+                                modalStudentList.appendChild(li);
+                            });
+                            modalStudentList.classList.remove("hidden");
+                        } else {
+                            modalStudentList.innerHTML = "";
+                            modalStudentList.classList.add("hidden");
+                        }
+
+                        // Ensure Modal Appears Properly
+                        modal.classList.remove("hidden");
+                        modal.style.display = "block";  // Force visibility
+                        modal.style.opacity = "1";      // Fix transparency issues
+                    }
+                });
+            });
+
+            // Close Modal Event
+            closeModal.addEventListener("click", () => {
+                console.log("Closing Modal");
+                modal.classList.add("hidden");
+                modal.style.display = "none";  // Hide properly
+            });
+        }
+    </script>
+</body>
+</html>
