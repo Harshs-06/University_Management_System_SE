@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniCharm</title>
+    <link rel="stylesheet" href="/assets/css/dashboard_admin.css">
+    <script defer src="/assets/js/dashboard_admin.js"></script>
+</head>
+<body>
+<div id="layoutContainer">
+    <div id="navigationBar">
+        <img src="/assets/images/bml_logo.png" width="130">
+        <div id="dashboard">Dashboard</div>
+        <div id="check_profile">Profile</div>
+        <div id="courses">Courses</div>
+        <div id="notice">Notice</div>
+        <div id="schedule">Schedule</div>
+        <div id="logout">Logout</div>
+    </div>
+    <div id="contentWrapper">
+        <div id="headerDiv">
+            <header>
+                <input type="text" id="searchBar" placeholder="Search">
+                <div id="departmentSelection">
+                    <select id="departmentDropdown" onchange="updateSections()">
+                        <option value="CSE">CSE</option>
+                        <option value="ME">ME</option>
+                        <option value="Ecom">Ecom</option>
+                    </select>
+                    <select id="sectionDropdown" onchange="updateDashboard()"></select>
+                </div>                
+                <div id="profile">
+                    <img id="ProfilePic" >
+                    <div id="ProfileUserInfo">
+                        <p id="Profile_userName"></p>
+                        <p id="Profile_userDetail"></p>
+                    </div>
+                </div>
+                <div id="headerIcons">
+                    <img id="settings_icon" src="/assets/images/settings_icon.png">
+                    <img id="notification_icon" src="/assets/images/notification_icon.png">
+                </div>
+            </header>
+        </div>
+        <div id="mainContent">
+            <div id="quickAccess">
+                <div class="quick-access-item">
+                    <img src="/assets/images/assessment_clash.svg" alt="Assessment">
+                    <p>Assessment</p>
+                </div>
+                <div class="quick-access-item">
+                    <img src="/assets/images/faculty_performance.svg" alt="Faculty Performance">
+                    <p>Faculty Performance</p>
+                </div>
+                <div class="quick-access-item">
+                    <img src="/assets/images/manage_course.svg" alt="Manage Course">
+                    <p>Manage Course</p>
+                </div>
+                <div class="quick-access-item" id="mentorship-btn">
+                    <img src="/assets/images/mentorship.svg" alt="Mentorship">
+                    <p>Mentorship</p>
+                </div>                
+                <div class="quick-access-item" id="od-btn">
+                    <img src="/assets/images/od_management.svg" alt="OD Management">
+                    <p>OD Management</p>
+                </div>
+            </div>
+            
+            <div id="optionsContainer">
+                <div id="exploreMoreOptions">
+                    <h2>CREATE ANNOUNCEMENTS</h2>
+                    <div id="announcementBox">
+                        <textarea placeholder="Send your Announcement....."></textarea>
+                        <button id="postButton">POST</button>
+                    </div>
+                </div>
+                <div id="todoSection">
+                    <h2>TO-DO LIST</h2>
+                    <div id="todoContainer">
+                        <input type="text" id="todoInput" placeholder="Add a new task...">
+                        <button id="addTodoButton">Add</button>
+                        <ul id="todoList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const addTodoButton = document.getElementById("addTodoButton");
+        const todoInput = document.getElementById("todoInput");
+        const todoList = document.getElementById("todoList");
+
+        addTodoButton.addEventListener("click", function () {
+            const taskText = todoInput.value.trim();
+            if (taskText !== "") {
+                const listItem = document.createElement("li");
+                listItem.textContent = taskText;
+                
+                const removeButton = document.createElement("button");
+                removeButton.textContent = "Remove";
+                removeButton.addEventListener("click", function () {
+                    todoList.removeChild(listItem);
+                });
+
+                listItem.appendChild(removeButton);
+                todoList.appendChild(listItem);
+                todoInput.value = "";
+            }
+        });
+    });
+    document.getElementById('mentorship-btn').addEventListener('click', function() {
+                window.location.href = '/admin/mentorship.html';
+            });
+    document.getElementById('od-btn').addEventListener('click', function() {
+        window.location.href = '/admin/od-management.html';
+    });
+</script>
+</body>
+</html>
