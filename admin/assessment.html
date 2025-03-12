@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assessments</title>
+    <link rel="stylesheet" href="/assets/css/manage_assessment.css">
+</head>
+<body>
+    <div class="container">
+        <div id="navigationBar">
+            <img src="/assets/images/bml_logo.png" width="130">
+            <a href="/admin/dashboard.html">
+                <div id="dashboard">Dashboard</div>
+            </a>
+            <div id="check_profile">Profile</div>
+            <div id="courses">Courses</div>
+            <div id="notice">Notice</div>
+            <div id="schedule">Schedule</div>
+            <div id="logout">Logout</div>
+        </div>
+
+        <div class="main-content">
+            <div class="header" id="home-btn">
+                <div class="header-text">
+                    <h1>OD Management</h1>
+                </div>
+                <div class="header-image">
+                    <img src="/assets/images/mentorship_icon.svg" alt="OD Icon">
+                </div>
+            </div>
+
+            <!-- Schedule Assessment Section -->
+            <div class="assessment-form">
+                <h2>Schedule a New Assessment</h2>
+                <label for="courseName">Course Name:</label>
+                <input type="text" id="courseName" placeholder="Enter Course Name">
+
+                <label for="assessmentDate">Assessment Date:</label>
+                <input type="date" id="assessmentDate">
+
+                <label for="assessmentType">Assessment Type:</label>
+                <select id="assessmentType">
+                    <option value="quiz">Quiz</option>
+                    <option value="midterm">Midterm</option>
+                    <option value="final">Final</option>
+                </select>
+
+                <button id="scheduleButton">Schedule Assessment</button>
+            </div>
+
+            <!-- Scheduled Assessments List -->
+            <div class="assessment-list">
+                <h2>Scheduled Assessments</h2>
+                <ul id="assessmentList">
+                    <!-- Assessments will be listed here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script> 
+        document.getElementById('home-btn').addEventListener('click', function() {
+            window.location.href = '/admin/dashboard.html';
+        });
+        </script>
+    <script src="/assets/js/manage_assessment.js"></script>
+</body>
+</html>
