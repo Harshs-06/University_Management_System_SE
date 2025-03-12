@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Hub</title>
+    <link rel="stylesheet" href="/assets/css/groupHub.css">
+</head>
+<body>
+    <div id="headerDiv">
+        <header >
+            <input type="text" class="searchBar" >
+            <div id="suggestions"></div>
+            <div id="profile">
+                <img id="ProfilePic" >
+                <div id="ProfileUserInfo">
+                    <p id="Profile_userName"></p>
+                    <p id="Profile_userDetail"></p>
+                </div>
+            </div>
+    
+            <div id="headerIcons">
+                <img id="settings_icon" >
+                <img id="notification_icon">
+    
+            </div>
+    
+        </header>
+    </div>
+    
+    <div id="navigationBar">
+        <img src="/assets/images/bml_logo.png" width="130">
+        <div id="dashboard">Dashboard</div>
+        <div id="fees">Fees</div>
+        <div id="check_profile">Profile</div>
+        <div id="courses">Courses</div>
+        <div id="hostel">Hostel</div>
+        <div id="result">Result</div>
+        <div id="notice">Notice</div>
+        <div id="schedule">Schedule</div>
+        
+        <div id="logout">Logout</div>
+    
+    </div>
+    <main id="mainContent" style="display: flex;">
+    <div id="descriptionTab" >
+        
+        <p>Your Groups</p>
+        
+        <div id="yourGroups" >
+            <img src="/assets/images/createGroupButton.png" width="327" height="298" style="cursor: pointer;">
+            <img src="/assets/images/unipshereGroup.png" height="298" style="margin-left: -8%;cursor: pointer;" id="unispherePage">
+            <img src="/assets/images/unipshereGroup.png" height="298" style="margin-top: -8%;cursor: pointer;">
+            <img src="/assets/images/unipshereGroup.png" height="298" style="margin-top: -8%;margin-left: -8%;cursor: pointer;">
+        </div>
+        <img src="/assets/images/down.png " width="26" style="justify-content: center; align-self: center; align-items: center; margin-left: 36%; margin-top: -1%; cursor: pointer;"> 
+    </div>
+    <img src="/assets/images/invitations.png" width="347" height="554" style="position: absolute;right: 0; top: 0; margin-top: 6.5%;">
+    </main>
+    <script src="/assets/js/groupHub.js"></script>
+</body>
+</html>

@@ -27,6 +27,10 @@ notification_icon.width="24"
 notification_icon.height="24"
 
 
+document.querySelector("#groupHub").addEventListener("click",function(){
+      window.location.href="/student/groupHub.html";
+});
+
 // let todo_items = document.querySelector("#todo_items");
 // let items = [["study","Preparation for ML mid sem","start at 20:00"]];
 // let item_category_icon= {"study":"/assets/images/item_study.png","warn":"/assets/images/item_warning.png"};

@@ -262,6 +262,17 @@
     width: 500px;
     box-shadow: 8px 8px 45px rgba(0, 0, 0, 0.1), -8px -8px 45px rgba(255, 255, 255, 0.5);
 }
+#assessment button{
+    width: 96%;
+    height: 15%;
+    margin-top: 30px;
+    border-radius: 10px;
+    font-family: p_semibold;
+    background-color: #DDA853;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
 #informationBar div p{
     font-family: p_semibold;
 }
