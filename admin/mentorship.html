@@ -22,7 +22,7 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="header">
+            <div class="header" id="home-btn">
                 <div class="header-text">
                     <h1>Mentorship Management</h1>
                 </div>
@@ -92,5 +92,10 @@
             </table>
         </div>                
     </div>
+    <script> 
+    document.getElementById('home-btn').addEventListener('click', function() {
+        window.location.href = '/admin/dashboard.html';
+    });
+    </script>
 </body>
 </html>

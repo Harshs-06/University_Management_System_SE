@@ -1,19 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
-    updateSections(); // Initialize sections on page load
+    updateSections(); 
 });
 
 function updateSections() {
     const department = document.getElementById("departmentDropdown").value;
     const sectionDropdown = document.getElementById("sectionDropdown");
 
-    // Define section counts for each department
     const sections = {
         CSE: 7,
         ME: 3,
         Ecom: 2
     };
 
-    sectionDropdown.innerHTML = ""; // Clear previous options
+    sectionDropdown.innerHTML = ""; 
 
     for (let i = 1; i <= sections[department]; i++) {
         let option = document.createElement("option");
@@ -28,9 +27,8 @@ function updateSections() {
 function updateDashboard() {
     const department = document.getElementById("departmentDropdown").value;
     const section = document.getElementById("sectionDropdown").value;
-
     console.log(`Displaying dashboard for ${department} - ${section}`);
-    // Implement logic to fetch and display data for selected section
+    
 }
 
 

@@ -49,14 +49,14 @@
                     <img src="/assets/images/od_management.svg" alt="OD Management">
                     <p>OD Management</p>
                 </div>
-                <div class="quick-access-item">
+                <div class="quick-access-item" id="Assessment-btn">
                     <img src="/assets/images/assessment_clash.svg" alt="Assessment">
-                    <p>Assessment</p>
+                    <p>Assessment Management</p>
                 </div>
-                <div class="quick-access-item">
+                <!-- <div class="quick-access-item">
                     <img src="/assets/images/faculty_performance.svg" alt="Faculty Performance">
-                    <p>Faculty Performance</p>
-                </div>
+                    <p>Manage Faculty</p>
+                </div> -->
                 <div class="quick-access-item">
                     <img src="/assets/images/manage_course.svg" alt="Manage Course">
                     <p>Manage Course</p>
@@ -128,6 +128,9 @@
             });
     document.getElementById('od-btn').addEventListener('click', function() {
         window.location.href = '/admin/od-management.html';
+    });
+    document.getElementById('Assessment-btn').addEventListener('click', function() {
+        window.location.href = '/admin/assessment.html';
     });
 </script>
 </body>
