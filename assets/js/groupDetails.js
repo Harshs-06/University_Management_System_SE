@@ -182,3 +182,8 @@ popup.addEventListener("click", (e) => {
         popup.style.display = "none";
     }
 });
+
+
+document.querySelector("#checkGroupWork").addEventListener('click',function() {
+    window.location.href="/student/checkTeamMates.html";
+})

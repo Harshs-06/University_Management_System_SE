@@ -110,7 +110,7 @@ body{
     
 }
 
-#navigationBar :not(:nth-child(-n+2)):hover{
+#navigationBar :not(:first-child):hover{
         background: rgba(255, 255, 255, 0.08);
         
 }

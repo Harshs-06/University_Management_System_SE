@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Work</title>
+    <style>
+        @font-face {
+    font-family: p_regular;
+    src: url("/assets/poppins_font/Poppins-Regular.ttf");
+}
+@font-face {
+    font-family: p_semibold;
+    src: url("/assets/poppins_font/Poppins-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: p_medium;
+    src: url("/assets/poppins_font/Poppins-Medium.ttf");
+}
+
+@font-face {
+    font-family: p_italic;
+    src: url("/assets/poppins_font/Poppins-Italic.ttf");
+}
+body{
+    overflow-y: hidden;
+}
+#headerDiv header{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 230px;
+}
+
+#ProfilePic{
+    border: 4px solid rgba(22, 64, 77, 0.81);
+    border-radius: 100%;
+    box-shadow: 8px 8px 45px rgba(0, 0, 0, 0.3), -8px -8px 45px rgba(255, 255, 255, 1);
+}
+.searchBar{
+    width: 40%;
+    height: 40px;
+    background: white;
+    font-size: 13.8px;
+    padding-left: 15px;
+    padding-right: 12px;
+    font-family: "p_regular";
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 24px;
+    border: 1px solid transparent;
+    box-shadow: 8px 8px 45px rgba(0, 0, 0, 0.125), -8px -8px 45px rgba(255, 255, 255, 1);
+    outline: none;
+}
+#profile{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+    margin-left: 390px;
+    margin-top: -2px;
+   
+}
+#headerIcons{
+    display: flex;
+    gap: 20px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+#ProfileUserInfo{
+    display: flex;
+    flex-direction: column;
+    margin-top: -5px;
+    color: black;
+    font-size: 16px;
+    
+}
+#Profile_userName{
+    color: black;
+    font-family: p_semibold;
+
+}
+#Profile_userDetail{
+    color: rgba(0, 0, 0, 0.5);
+    font-family: p_regular;
+    font-size: 12px;
+    margin-top: -18px;
+}   
+
+#navigationBar{
+    background-color: #16404D;
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    height: 670px;
+    font-family: p_regular;
+    
+    font-size: 14px;
+    gap: 20px;
+    margin-top: -60px;
+    border-radius: 20px;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#navigationBar div{
+    width: 150px;
+    display: flex;
+   height: 35px;
+   justify-content: center;
+   border-radius: 12px;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    
+}
+
+#navigationBar :not(:first-child):hover{
+        background: rgba(255, 255, 255, 0.08);
+        
+}
+
+#suggestions {
+    z-index: 5;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    display: none;
+    width: 200px;
+    top: 10%;
+    padding: 5px;
+    border-radius: 10px;
+}
+.suggestion-item {
+    font-family: p_semibold;
+    padding: 10px;
+    cursor: pointer;
+}
+.suggestion-item:hover {
+    border-radius: 10px;
+    background: #f0f0f0;
+}
+
+#teamMem{
+    display: grid;
+    margin-top: -1.5%;
+    grid-template-columns: repeat(3, auto);
+}
+
+#p{
+    font-family: p_semibold;
+    position: relative;
+    font-size: 20px;
+    
+    left: 2%;
+}
+    </style>
+</head>
+<body>
+    <div id="headerDiv">
+        <header >
+            <input type="text" class="searchBar" >
+            <div id="suggestions"></div>
+            <div id="profile">
+                <img id="ProfilePic" >
+                <div id="ProfileUserInfo">
+                    <p id="Profile_userName"></p>
+                    <p id="Profile_userDetail"></p>
+                </div>
+            </div>
+    
+            <div id="headerIcons">
+                <img id="settings_icon" >
+                <img id="notification_icon">
+    
+            </div>
+    
+        </header>
+    </div>
+    
+    <div id="navigationBar">
+        <img src="/assets/images/bml_logo.png" width="130">
+        <div id="dashboard">Dashboard</div>
+        <div id="fees">Fees</div>
+        <div id="check_profile">Profile</div>
+        <div id="courses">Courses</div>
+        <div id="hostel">Hostel</div>
+        <div id="result">Result</div>
+        <div id="notice">Notice</div>
+        <div id="schedule">Schedule</div>
+        
+        <div id="logout">Logout</div>
+    
+    </div>
+   
+    <main style="position: absolute; top: 10%; left: 15%;">
+        <p id="p">Check your Teammates work</p>
+        <div id="teamMem">
+            <img src="/assets/images/teammem.png" width="380" height="288">
+            <img src="/assets/images/teammem.png" width="380" height="288">
+            <img src="/assets/images/teammem.png" width="380" height="288">
+            <img src="/assets/images/teammem.png" width="380" height="288">
+            <img src="/assets/images/teammem.png" width="380" height="288">
+        </div>
+    </main>
+
+
+</body>
+</html>
+
+<script>
+    let searchBar=document.querySelector(".searchBar");
+searchBar.placeholder="Search by: Project / Subject / Faculty";
+
+const suggestions = document.getElementById("suggestions");
+const searchTerms = ["Unisphere"]; 
+
+searchBar.addEventListener("input", function () {
+    const input = searchBar.value.toLowerCase();
+    suggestions.innerHTML = "";
+    if (input.length > 0) {
+        const matches = searchTerms.filter(term => term.toLowerCase().includes(input));
+        if (matches.length > 0) {
+            suggestions.style.display = "block";
+            matches.forEach(match => {
+                const div = document.createElement("div");
+                div.classList.add("suggestion-item");
+                div.textContent = match;
+                div.onclick = () => {
+                    searchBar.value = match;
+                    window.location.href="/student/groupDetails.html";
+                    suggestions.style.display = "none";
+                };
+                suggestions.appendChild(div);
+            });
+        } else {
+            suggestions.style.display = "none";
+        }
+    } else {
+        suggestions.style.display = "none";
+    }
+});
+
+document.addEventListener("click", (e) => {
+    if (!searchBar.contains(e.target) && !suggestions.contains(e.target)) {
+        suggestions.style.display = "none";
+    }
+});
+
+let profile_userName = document.querySelector("#Profile_userName");
+profile_userName.textContent="Harsh Soni";
+
+let profile_userDetail = document.querySelector("#Profile_userDetail");
+profile_userDetail.textContent="2nd year, B.tech(CSE VI)";
+
+let profile_pic = document.querySelector("#ProfilePic");
+profile_pic.src="/assets/images/userProfilePic.png"
+profile_pic.width="35";
+profile_pic.height="35";
+
+let settings_icon = document.querySelector("#settings_icon");
+settings_icon.src="/assets/images/settings_icon.png"
+settings_icon.width="24"
+settings_icon.height="24"
+
+
+let notification_icon = document.querySelector("#notification_icon");
+notification_icon.src="/assets/images/notification_icon.png";
+notification_icon.width="24"
+notification_icon.height="24"
+
+
+
+document.querySelector("#dashboard").addEventListener("click",function(){
+    window.location.href="/student/dashboard.html";
+});
+
+
+</script>
