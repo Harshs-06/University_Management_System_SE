@@ -7,10 +7,12 @@
     font-family: p_semibold;
     src: url("/assets/poppins_font/Poppins-SemiBold.ttf");
 }
-a{
+
+a {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.5);
 }
+
 html, body {
     height: 100%;
     margin: 0;
@@ -72,6 +74,12 @@ html, body {
     margin-bottom: 20px;
     border-radius: 20px;
     color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.header:hover {
+    transform: translateY(-2px);
 }
 
 .header-text h1 {
@@ -84,7 +92,6 @@ html, body {
     width: 60px;
     height: auto;
 }
-
 
 h1 {
     margin: 0;
@@ -103,6 +110,12 @@ h2 {
     border-radius: 15px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.assessment-form:hover, .assessment-list:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .assessment-form label {
@@ -120,6 +133,13 @@ h2 {
     border: 1px solid #ccc;
     font-size: 1rem;
     box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.assessment-form input:focus, .assessment-form select:focus {
+    border-color: #16404D;
+    box-shadow: 0 0 0 2px rgba(22, 64, 77, 0.2);
+    outline: none;
 }
 
 button {
@@ -129,11 +149,18 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
     background-color: #0F3A49;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
 }
 
 ul {
@@ -148,6 +175,13 @@ ul li {
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+ul li:hover {
+    background-color: #e6e6e6;
+    transform: translateX(3px);
 }
 
 .remove-btn {
@@ -157,4 +191,62 @@ ul li {
     color: white;
     cursor: pointer;
     border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.remove-btn:hover {
+    background-color: #c9302c;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #d32f2f;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border-left: 4px solid #d32f2f;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #16404D;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    #navigationBar {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
 }
