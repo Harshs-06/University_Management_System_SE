@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Assessments</title>
     <link rel="stylesheet" href="/assets/css/manage_assessment.css">
+    <!-- Load Supabase JS from CDN before other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/assets/js/supabase-client.js"></script>
+    <script src="/assets/js/manage_assessment.js"></script>
 </head>
 <body>
     <div class="container">
@@ -30,9 +34,14 @@
                 </div>
             </div>
 
+            <!-- Database Connection Status -->
+            <div id="dbStatus" class="db-status"></div>
+
             <!-- Schedule Assessment Section -->
             <div class="assessment-form">
                 <h2>Schedule a New Assessment</h2>
+                <div id="errorMessage" class="message-box" style="display: none;"></div>
+                
                 <label for="courseName">Course Name:</label>
                 <input type="text" id="courseName" placeholder="Enter Course Name">
 
@@ -49,6 +58,11 @@
                 <button id="scheduleButton">Schedule Assessment</button>
             </div>
 
+            <!-- Loading Spinner -->
+            <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+
             <!-- Scheduled Assessments List -->
             <div class="assessment-list">
                 <h2>Scheduled Assessments</h2>
@@ -62,7 +76,6 @@
         document.getElementById('home-btn').addEventListener('click', function() {
             window.location.href = '/admin/dashboard.html';
         });
-        </script>
-    <script src="/assets/js/manage_assessment.js"></script>
+    </script>
 </body>
 </html>
