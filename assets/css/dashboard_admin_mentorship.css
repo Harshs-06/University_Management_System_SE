@@ -239,108 +239,179 @@ html, body {
     background-color: #0F3A49;
 }
 
+/* Status styling */
+.status-approved {
+    color: #10b981;
+    font-weight: bold;
+}
+
+.status-rejected {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.status-active {
+    color: #3b82f6;
+    font-weight: bold;
+}
+
+.status-inactive {
+    color: #9ca3af;
+    font-weight: bold;
+}
+
 /* Modal Styling */
 .modal {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
     background: white;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    display: none;
-    width: 300px;
-    text-align: center;
-    transition: all 0.3s ease-in-out;
-}
-/* .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    z-index: 100;
-    max-width: 80%;
     width: 400px;
-    text-align: center;
-    animation: fadeIn 0.3s ease;
-} */
+    max-width: 90%;
+    text-align: left;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Button Close Styling */
+.modal-content button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #16404D;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: p_regular;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+    background-color: #0F3A49;
+}
 
 .modal-content h3 {
     font-family: p_semibold;
     font-size: 1.4rem;
     margin-bottom: 15px;
+    color: #16404D;
 }
 
 .modal-content p {
     font-family: p_regular;
     font-size: 1rem;
     margin-bottom: 10px;
+    line-height: 1.5;
 }
 
 .hidden {
     display: none;
 }
 
-/* Button Close Styling */
-.modal-content button {
-    padding: 8px 15px;
-    border: none;
-    background-color: #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: p_regular;
-}
-
-.modal-content button:hover {
-    background-color: #bbb;
-}
 #modal-student-list {
     list-style-type: none;
     padding: 0;
-    margin-top: 5px;
+    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 #modal-student-list li {
-    margin: 5px 0;
-    font-weight: 500;
+    margin: 8px 0;
+    padding: 8px;
+    background-color: #f1f5f9;
+    border-radius: 6px;
 }
+
+/* Loading and Error States */
+.loading, .error, .no-data {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+    color: #16404D;
+    font-size: 1.1rem;
+}
+
+.error {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.no-data {
+    color: #6b7280;
+    font-style: italic;
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translate(-50%, -40%);
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
-        transform: translate(-50%, -50%);
+        transform: translateY(0);
     }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .od-card, .modal {
-        max-width: 90%;
+    .container {
+        flex-direction: column;
+    }
+    
+    #navigationBar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+    
+    .search-bar {
+        flex-direction: column;
+    }
+    
+    .search-input {
+        width: 100%;
+    }
+    
+    .od-actions {
+        flex-direction: column;
+        gap: 10px;
     }
     
     .od-actions button {
-        padding: 8px 12px;
-        font-size: 0.8rem;
+        margin-right: 0;
+        width: 100%;
     }
-
-    .modal-content {
-        padding: 15px;
-    }
-
-    .modal-content h3 {
-        font-size: 1.2rem;
-    }
-
-    .modal-content p {
-        font-size: 0.9rem;
+    
+    .header {
+        padding: 20px;
     }
 }
