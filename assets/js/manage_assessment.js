@@ -6,11 +6,85 @@ document.addEventListener("DOMContentLoaded", async function () {
     const assessmentList = document.getElementById("assessmentList");
     const loadingSpinner = document.getElementById("loadingSpinner");
     const errorMessage = document.getElementById("errorMessage");
+    
+    // Store all the assessment dates that are already scheduled
+    let occupiedDates = [];
 
     // Check connection and table existence
     const isConnected = await checkConnection();
     if (!isConnected) {
         showError("Database connection issue. The assessments table might not exist in your Supabase project.");
+    }
+    
+    // Function to fetch all assessment dates
+    async function fetchAssessmentDates() {
+        try {
+            const { data, error } = await supabaseClient
+                .from('assessments')
+                .select('date');
+
+            if (error) throw error;
+
+            // Extract dates and store them in the occupiedDates array
+            if (data && data.length > 0) {
+                occupiedDates = data.map(item => item.date);
+            }
+            
+            // Apply date restrictions
+            applyDateRestrictions();
+            
+        } catch (error) {
+            console.error('Error fetching assessment dates:', error);
+            showError("Failed to fetch assessment dates. " + (error.message || "Please try again."));
+        }
+    }
+    
+    // Function to disable occupied dates in the date picker
+    function applyDateRestrictions() {
+        // Add min attribute to only allow future dates (today and onwards)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Reset time to beginning of day
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const formattedToday = `${yyyy}-${mm}-${dd}`;
+        
+        assessmentDateInput.setAttribute('min', formattedToday);
+        
+        // Add change event listener to check date on selection
+        assessmentDateInput.addEventListener('change', function() {
+            const selectedDate = this.value;
+            if (occupiedDates.includes(selectedDate)) {
+                showDateClashModal();
+                this.value = ''; // Clear the selected date
+            }
+        });
+    }
+    
+    // Function to display date clash modal
+    function showDateClashModal() {
+        const modal = document.createElement('div');
+        modal.className = 'date-clash-modal';
+        modal.innerHTML = `
+            <div class="date-clash-content">
+                <h3>Date Clash Detected</h3>
+                <p>Date already occupied with another assessment.</p>
+                <button id="closeModal">OK</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Add event listener to close button
+        document.getElementById('closeModal').addEventListener('click', function() {
+            modal.remove();
+        });
+        
+        // Auto close after 3 seconds
+        setTimeout(() => {
+            if (document.body.contains(modal)) {
+                modal.remove();
+            }
+        }, 3000);
     }
 
     // Load existing assessments when page loads
@@ -30,6 +104,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             // If we got data, update the list
             if (data) {
                 updateAssessmentList(data);
+                
+                // Fetch assessment dates for clash prevention
+                await fetchAssessmentDates();
             } else {
                 // Empty array is fine - just means no assessments yet
                 updateAssessmentList([]);
@@ -59,11 +136,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
+        // Check if date is already in the occupied list
+        if (occupiedDates.includes(assessmentDate)) {
+            showDateClashModal();
+            assessmentDateInput.value = '';
+            return;
+        }
+
         try {
             loadingSpinner.style.display = "block";
             errorMessage.style.display = "none";
 
-            // Check if date is already scheduled
+            // Check if date is already scheduled (double-check)
             const { data: existingAssessments, error: checkError } = await supabaseClient
                 .from('assessments')
                 .select('id')
