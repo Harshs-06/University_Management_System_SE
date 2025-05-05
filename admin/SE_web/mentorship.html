@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship Management</title>
+    <link rel="stylesheet" href="mentorship.css">
+    
+</head>
+<body>
+    <div class="maindiv">
+        <div class="navbar">
+            <img src="/assets/images/bml_logo.png" id="logo">
+            <div id="dashboard" class="navitems">Dashboard</div>
+            <div id="fees" class="navitems">Fees</div>
+            <div id="check_profile" class="navitems">Profile</div>
+            <div id="courses" class="navitems">Courses</div>
+            <div id="hostel" class="navitems">Hostel</div>
+            <div id="result" class="navitems">Result</div>
+            <div id="mentorship" class="navitems selected">Mentorship</div>
+            <div id="notice" class="navitems">Notice</div>
+            <div id="schedule" class="navitems">Schedule</div>
+            <div id="logout" class="navitems">Logout</div>
+        </div>
+        <div class="content">
+            <div class="filter-container">
+                <div class="filter-cards">
+                    <div class="filter-card border-orange">
+                        <label class="label" for="total-mentors">Total Mentors</label>
+                        <div id="total-mentors" class="value" style="font-size: 22px;">0</div>
+                    </div>
+                    <div class="filter-card border-green">
+                        <label class="label" for="selected-programme">Programme</label>
+                        <select id="selected-programme" class="value"></select>
+                    </div>
+                    <div class="filter-card border-blue">
+                        <label class="label" for="selected-mentor">Mentor</label>
+                        <select id="selected-mentor" class="value"></select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mentorship-container">
+                <div class="mentorship-header">
+                    <h2>Mentorship Assignments</h2>
+                    <button id="assign-mentor" class="action-button">Assign New Mentor</button>
+                </div>
+                <div class="table-container" id="mentorshipTable"></div>
+            </div>
+
+            <!-- Modal for assigning new mentor -->
+            <div id="mentorModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Assign New Mentor</h2>
+                    <div class="form-group">
+                        <label for="student-select">Select Student</label>
+                        <select id="student-select" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mentor-select">Select Mentor</label>
+                        <select id="mentor-select" class="form-control"></select>
+                    </div>
+                    <button id="confirm-assignment" class="action-button">Confirm Assignment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="mentorship.js"></script>
+</body>
+</html> 

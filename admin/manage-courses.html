@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Courses - UniCharm</title>
+    <link rel="stylesheet" href="/assets/css/dashboard_admin.css">
+    <link rel="stylesheet" href="/assets/css/manage_courses.css">
+    <script defer src="/assets/js/dashboard_admin.js"></script>
+    <script defer src="/assets/js/manage_courses.js"></script>
+</head>
+<body>
+<div id="layoutContainer">
+    <div id="navigationBar">
+        <img src="/assets/images/bml_logo.png" width="130">
+        <div id="dashboard">Dashboard</div>
+        <div id="check_profile">Profile</div>
+        <div id="courses" class="active-nav">Courses</div>
+        <div id="notice">Notice</div>
+        <div id="schedule">Schedule</div>
+        <div id="logout">Logout</div>
+    </div>
+    <div id="contentWrapper">
+        <div id="headerDiv">
+            <header>
+                <input type="text" id="searchBar" placeholder="Search courses...">
+                <div id="departmentSelection">
+                    <select id="departmentDropdown" onchange="updateSections()">
+                        <option value="">Select Department</option>
+                        <option value="CSE">Computer Science Engineering</option>
+                        <option value="ECE">Electronics & Communication Engineering</option>
+                        <option value="ME">Mechanical Engineering</option>
+                        <option value="CE">Civil Engineering</option>
+                        <option value="EE">Electrical Engineering</option>
+                        <option value="IT">Information Technology</option>
+                    </select>
+                    <select id="sectionDropdown" onchange="updateCourseList()"></select>
+                </div>                
+                <div id="profile">
+                    <img id="ProfilePic" >
+                    <div id="ProfileUserInfo">
+                        <p id="Profile_userName"></p>
+                        <p id="Profile_userDetail"></p>
+                    </div>
+                </div>
+                <div id="headerIcons">
+                    <img id="settings_icon" src="/assets/images/settings_icon.png">
+                    <img id="notification_icon" src="/assets/images/notification_icon.png">
+                </div>
+            </header>
+        </div>
+        <div id="mainContent">
+            <div id="courseManageHeader">
+                <h1>Course Management</h1>
+                <div class="header-buttons">
+                    <button id="checkStorageBtn" onclick="checkLocalStorage()">Check Storage</button>
+                    <button id="initStorageBtn" onclick="forceInitializeStorage()">Reset Storage</button>
+                    <button id="testAddCourseBtn" onclick="addTestCourse()">Add Test Course</button>
+                    <button id="createCourseBtn">Create New Course</button>
+                </div>
+            </div>
+            
+            <div id="courseManagementOptions">
+                <div class="manage-option" id="modifyCourse" onclick="window.location.href='/admin/modify-courses.html'">
+                    <img src="/assets/images/settings_icon.png" alt="Modify Course">
+                    <h3>Modify Existing Courses</h3>
+                    <p>Update course details, faculty assignments, and student information</p>
+                </div>
+                <div class="manage-option" id="createCourse" onclick="window.location.href='/admin/create-course.html'">
+                    <img src="/assets/images/manage_course.svg" alt="Create Course">
+                    <h3>Create Course for New Batch</h3>
+                    <p>Set up new courses for upcoming academic sessions</p>
+                </div>
+                <div class="manage-option" id="manageFaculty" onclick="window.location.href='/admin/faculty-assignments.html'">
+                    <img src="/assets/images/faculty_performance.svg" alt="Manage Faculty">
+                    <h3>Faculty Assignments</h3>
+                    <p>View and update faculty assignments for courses</p>
+                </div>
+            </div>
+            
+            <div id="courseListSection">
+                <h2>Current Courses</h2>
+                <div id="courseListContainer">
+                    <!-- Course list will be populated here -->
+                    <table id="courseTable">
+                        <thead>
+                            <tr>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Department</th>
+                                <th>Faculty</th>
+                                <th>Coordinator</th>
+                                <th>Students</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="courseTableBody">
+                            <!-- Sample data, will be replaced by dynamic content -->
+                            <tr>
+                                <td>CSE101</td>
+                                <td>Introduction to Programming</td>
+                                <td>CSE</td>
+                                <td>Dr. John Smith</td>
+                                <td>Dr. Alice Johnson</td>
+                                <td>45</td>
+                                <td>
+                                    <button class="action-btn view-btn">View Details</button>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CSE202</td>
+                                <td>Data Structures</td>
+                                <td>CSE</td>
+                                <td>Dr. Alice Johnson</td>
+                                <td>Dr. John Smith</td>
+                                <td>38</td>
+                                <td>
+                                    <button class="action-btn view-btn">View Details</button>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ME105</td>
+                                <td>Engineering Mechanics</td>
+                                <td>ME</td>
+                                <td>Prof. Robert Davis</td>
+                                <td>Dr. Alice Johnson</td>
+                                <td>42</td>
+                                <td>
+                                    <button class="action-btn view-btn">View Details</button>
+                                    <button class="action-btn edit-btn">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Modal for course details -->
+            <div id="courseModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div id="modalTabs">
+                        <div class="tab active" data-tab="details">Course Details</div>
+                        <div class="tab" data-tab="students">Student List</div>
+                        <div class="tab" data-tab="assignments">Assignments</div>
+                        <div class="tab" data-tab="faculty">Faculty</div>
+                    </div>
+                    <div id="modalTabContent">
+                        <div id="detailsTab" class="tab-content active">
+                            <h3>Course Details</h3>
+                            <form id="courseDetailsForm">
+                                <div class="form-group">
+                                    <label>Course Code:</label>
+                                    <input type="text" id="courseCode" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Course Name:</label>
+                                    <input type="text" id="courseName">
+                                </div>
+                                <div class="form-group">
+                                    <label>Department:</label>
+                                    <select id="courseDept">
+                                        <option value="">Select Department</option>
+                                        <option value="CSE">Computer Science Engineering</option>
+                                        <option value="ECE">Electronics & Communication Engineering</option>
+                                        <option value="ME">Mechanical Engineering</option>
+                                        <option value="CE">Civil Engineering</option>
+                                        <option value="EE">Electrical Engineering</option>
+                                        <option value="IT">Information Technology</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Credits:</label>
+                                    <input type="number" id="courseCredits" min="1" max="6">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description:</label>
+                                    <textarea id="courseDescription"></textarea>
+                                </div>
+                                <button type="submit" class="save-btn">Save Changes</button>
+                            </form>
+                        </div>
+                        <div id="studentsTab" class="tab-content">
+                            <h3>Enrolled Students</h3>
+                            <div class="search-filter">
+                                <input type="text" placeholder="Search students..." id="studentSearch">
+                                <button id="filterMarksBtn">Filter by Marks</button>
+                                <button id="exportListBtn">Export List</button>
+                            </div>
+                            <table id="studentTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Section</th>
+                                        <th>Attendance</th>
+                                        <th>Assignments</th>
+                                        <th>Mid-term</th>
+                                        <th>Final</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentTableBody">
+                                    <!-- Will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="assignmentsTab" class="tab-content">
+                            <h3>Course Assignments</h3>
+                            <button id="addAssignmentBtn">Add New Assignment</button>
+                            <table id="assignmentTable">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Due Date</th>
+                                        <th>Total Marks</th>
+                                        <th>Submissions</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="assignmentTableBody">
+                                    <!-- Will be populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="facultyTab" class="tab-content">
+                            <h3>Faculty Information</h3>
+                            <div id="currentFaculty">
+                                <h4>Current Faculty</h4>
+                                <div class="faculty-card">
+                                    <img src="/assets/images/faculty_placeholder.png" alt="Faculty" class="faculty-img">
+                                    <div class="faculty-info">
+                                        <h5 id="facultyName">Dr. John Smith</h5>
+                                        <p id="facultyDesignation">Associate Professor</p>
+                                        <p id="facultyDepartment">Department of CSE</p>
+                                        <p id="facultyEmail">john.smith@university.edu</p>
+                                    </div>
+                                </div>
+                                <button id="changeFacultyBtn">Change Faculty</button>
+                            </div>
+                            <div id="facultyHistory">
+                                <h4>Previous Faculty</h4>
+                                <ul id="facultyHistoryList">
+                                    <!-- Will be populated dynamically -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Modal for creating new course -->
+            <div id="newCourseModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-modal" onclick="document.getElementById('newCourseModal').style.display='none'">&times;</span>
+                    <h2>Create New Course</h2>
+                    <form id="newCourseForm">
+                        <div class="form-group">
+                            <label for="newCourseCode">Course Code:</label>
+                            <input type="text" id="newCourseCode" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseName">Course Name:</label>
+                            <input type="text" id="newCourseName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseDept">Department:</label>
+                            <select id="newCourseDept" required>
+                                <option value="">Select Department</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseBatch">Batch:</label>
+                            <input type="text" id="newCourseBatch" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseCredits">Credits:</label>
+                            <input type="number" id="newCourseCredits" min="1" max="6" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseDescription">Description:</label>
+                            <textarea id="newCourseDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseFaculty">Faculty:</label>
+                            <select id="newCourseFaculty" required>
+                                <option value="">Select Faculty</option>
+                            </select>
+                        </div>
+                        <div class="form-group coordinator-checkbox">
+                            <label for="newCourseCoordinator" class="coordinator-label">
+                                <input type="checkbox" id="newCourseCoordinator">
+                                <span class="checkbox-text">Assign as Course Coordinator</span>
+                                <span class="coordinator-info">(Maximum 2 courses per faculty)</span>
+                            </label>
+                        </div>
+                        <button type="button" onclick="createNewCourse()">Create Course</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Copy default data as JSON to clipboard
+    function copyDefaultData() {
+        try {
+            // Create a temporary object with both data sets
+            const defaultData = {
+                courses: [
+                    {
+                        id: 'CSE101',
+                        name: 'Introduction to Programming',
+                        department: 'CSE',
+                        faculty: 'Dr. John Smith',
+                        facultyId: 1,
+                        studentsCount: 45
+                    },
+                    {
+                        id: 'CSE202',
+                        name: 'Data Structures',
+                        department: 'CSE',
+                        faculty: 'Dr. Alice Johnson',
+                        facultyId: 2,
+                        studentsCount: 38
+                    }
+                ],
+                faculty: [
+                    { 
+                        id: 1, 
+                        name: 'Dr. John Smith', 
+                        department: 'Department of CSE', 
+                        email: 'john.smith@university.edu'
+                    },
+                    { 
+                        id: 2, 
+                        name: 'Dr. Alice Johnson', 
+                        department: 'Department of CSE', 
+                        email: 'alice.johnson@university.edu'
+                    }
+                ]
+            };
+            
+            // Convert to JSON string
+            const jsonString = JSON.stringify(defaultData, null, 2);
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(jsonString).then(function() {
+                alert("Default data copied to clipboard! You can now manually paste it where needed.");
+            }, function() {
+                // Fallback method if clipboard API is not available
+                const textarea = document.createElement('textarea');
+                textarea.value = jsonString;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert("Default data copied to clipboard! You can now manually paste it where needed.");
+            });
+        } catch (e) {
+            alert("Failed to copy data: " + e.message);
+        }
+    }
+    
+    // Emergency initialization function
+    function emergencyInit() {
+        try {
+            // Direct localStorage assignment
+            const defaultCourse = {
+                id: 'EMER101',
+                name: 'Emergency Test Course',
+                department: 'CSE',
+                faculty: 'Emergency Faculty',
+                studentsCount: 10
+            };
+            
+            // Directly set a simple item first
+            localStorage.setItem('test_value', JSON.stringify({test: 'This is a test'}));
+            
+            // Check if it worked
+            const testResult = localStorage.getItem('test_value');
+            
+            if (testResult) {
+                alert("Simple localStorage test SUCCESS. Value: " + testResult);
+                
+                // Now try to set a course
+                localStorage.setItem('emergency_course', JSON.stringify(defaultCourse));
+                alert("Emergency course set. Check browser storage to verify.");
+                
+                // Refresh the page
+                window.location.reload();
+            } else {
+                alert("Simple localStorage test FAILED. Storage may be disabled in your browser.");
+            }
+        } catch (e) {
+            alert("Emergency init FAILED with error: " + e.message);
+        }
+    }
+    
+    // Check form fields function
+    function checkFormFields() {
+        try {
+            console.log("Checking New Course Form fields");
+            
+            const fields = [
+                'newCourseCode', 
+                'newCourseName', 
+                'newCourseDept', 
+                'newCourseBatch', 
+                'newCourseCredits', 
+                'newCourseDescription', 
+                'newCourseFaculty'
+            ];
+            
+            let message = "Form Field Status:\n";
+            let allFieldsExist = true;
+            
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    message += `${fieldId}: Element exists, value = "${field.value}"\n`;
+                } else {
+                    message += `${fieldId}: MISSING ELEMENT\n`;
+                    allFieldsExist = false;
+                }
+            });
+            
+            // Check form and submission button
+            const form = document.getElementById('newCourseForm');
+            if (form) {
+                message += "Form element exists\n";
+                const submitBtn = form.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    message += "Submit button exists\n";
+                } else {
+                    message += "Submit button MISSING\n";
+                }
+            } else {
+                message += "Form element MISSING\n";
+            }
+            
+            // Display result
+            console.log(message);
+            alert(message);
+            
+            // Try direct creation
+            if (allFieldsExist) {
+                if (confirm("Attempt to directly create a course with current values?")) {
+                    createNewCourse();
+                }
+            }
+        } catch (e) {
+            alert("Error checking fields: " + e.message);
+        }
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize section dropdown
+        updateSections();
+        
+        // Set up modal functionality
+        const modals = document.querySelectorAll('.modal');
+        const closeButtons = document.querySelectorAll('.close-modal');
+        
+        // Set up new course form submission
+        const newCourseForm = document.getElementById('newCourseForm');
+        if (newCourseForm) {
+            console.log("Setting up newCourseForm submission listener");
+            newCourseForm.addEventListener('submit', function(e) {
+                console.log("New course form submitted");
+                e.preventDefault();
+                createNewCourse();
+            });
+        } else {
+            console.error("Could not find newCourseForm element");
+        }
+        
+        // Open course details modal
+        const viewButtons = document.querySelectorAll('.view-btn');
+        viewButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('courseModal').style.display = 'block';
+            });
+        });
+        
+        // Open create course modal
+        document.getElementById('createCourseBtn').addEventListener('click', function() {
+            console.log("Create course button clicked");
+            document.getElementById('newCourseModal').style.display = 'block';
+        });
+        
+        // Close modals
+        closeButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modals.forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            });
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            modals.forEach(modal => {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        
+        // Tab functionality for course modal
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Hide all tab content
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Show selected tab content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId + 'Tab').classList.add('active');
+            });
+        });
+    });
+    
+    function updateSections() {
+        const department = document.getElementById('departmentDropdown').value;
+        const sectionDropdown = document.getElementById('sectionDropdown');
+        
+        // Clear existing options
+        sectionDropdown.innerHTML = '';
+        
+        // Add new options based on department
+        if (department === 'CSE') {
+            addOption(sectionDropdown, 'A', 'Section A');
+            addOption(sectionDropdown, 'B', 'Section B');
+            addOption(sectionDropdown, 'C', 'Section C');
+        } else if (department === 'ME') {
+            addOption(sectionDropdown, 'A', 'Section A');
+            addOption(sectionDropdown, 'B', 'Section B');
+        } else if (department === 'Ecom') {
+            addOption(sectionDropdown, 'A', 'Section A');
+        }
+        
+        // Update course list
+        updateCourseList();
+    }
+    
+    function addOption(selectElement, value, text) {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = text;
+        selectElement.appendChild(option);
+    }
+    
+    function updateCourseList() {
+        // Update the course list based on department and section
+        // In a real application, this would fetch data from the server
+        console.log('Updating course list...');
+        populateCourseTable();
+    }
+</script>
+</body>
+</html> 

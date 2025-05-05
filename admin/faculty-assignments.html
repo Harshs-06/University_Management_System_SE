@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Assignments - UniCharm</title>
+    <link rel="stylesheet" href="/assets/css/dashboard_admin.css">
+    <link rel="stylesheet" href="/assets/css/manage_courses.css">
+    <script defer src="/assets/js/manage_courses.js"></script>
+    <script defer src="/assets/js/faculty_assignments.js"></script>
+</head>
+<body>
+<div id="layoutContainer">
+    <div id="navigationBar">
+        <img src="/assets/images/bml_logo.png" width="130">
+        <div id="dashboard" onclick="window.location.href='/admin/dashboard.html'">Dashboard</div>
+        <div id="check_profile">Profile</div>
+        <div id="courses" class="active-nav" onclick="window.location.href='/admin/manage-courses.html'">Courses</div>
+        <div id="notice">Notice</div>
+        <div id="schedule">Schedule</div>
+        <div id="logout">Logout</div>
+    </div>
+    <div id="contentWrapper">
+        <div id="headerDiv">
+            <header>
+                <input type="text" id="searchBar" placeholder="Search faculty...">
+                <div id="departmentSelection">
+                    <select id="departmentDropdown" onchange="filterFaculty()">
+                        <option value="">All Departments</option>
+                        <option value="CSE">CSE</option>
+                        <option value="ME">ME</option>
+                        <option value="Ecom">Ecom</option>
+                    </select>
+                </div>                
+                <div id="profile">
+                    <img id="ProfilePic">
+                    <div id="ProfileUserInfo">
+                        <p id="Profile_userName"></p>
+                        <p id="Profile_userDetail"></p>
+                    </div>
+                </div>
+                <div id="headerIcons">
+                    <img id="settings_icon" src="/assets/images/settings_icon.png">
+                    <img id="notification_icon" src="/assets/images/notification_icon.png">
+                </div>
+            </header>
+        </div>
+        <div id="mainContent">
+            <div id="courseManageHeader">
+                <h1>Faculty Assignments</h1>
+                <div class="header-buttons">
+                    <button id="checkStorageBtn" onclick="checkLocalStorage()">Check Storage</button>
+                    <button id="initStorageBtn" onclick="forceInitializeStorage()">Reset Storage</button>
+                    <button onclick="window.location.href='/admin/manage-courses.html'">Back to Courses</button>
+                </div>
+            </div>
+            
+            <div class="faculty-dashboard">
+                <div class="faculty-list-section">
+                    <div class="section-header">
+                        <h2>Faculty Members</h2>
+                        <button id="addFacultyBtn" class="add-btn">Add New Faculty</button>
+                    </div>
+                    <div class="faculty-list-container">
+                        <table id="facultyTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Courses</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="facultyTableBody">
+                                <!-- Will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="course-assignment-section">
+                    <div class="section-header">
+                        <h2>Course Assignments</h2>
+                    </div>
+                    <div class="assignment-stats">
+                        <div class="stat-card">
+                            <h3>CSE Department</h3>
+                            <p><span id="cseCoursesCount">0</span> courses</p>
+                            <p><span id="cseFacultyCount">0</span> faculty members</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>ME Department</h3>
+                            <p><span id="meCoursesCount">0</span> courses</p>
+                            <p><span id="meFacultyCount">0</span> faculty members</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Ecom Department</h3>
+                            <p><span id="ecomCoursesCount">0</span> courses</p>
+                            <p><span id="ecomFacultyCount">0</span> faculty members</p>
+                        </div>
+                    </div>
+                    
+                    <div class="assignment-form">
+                        <h3>Assign Faculty to Course</h3>
+                        <form id="assignFacultyForm">
+                            <div class="form-group">
+                                <label for="selectCourse">Select Course:</label>
+                                <select id="selectCourse" required>
+                                    <option value="">Choose a course...</option>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="selectFaculty">Assign Faculty:</label>
+                                <select id="selectFaculty" required>
+                                    <option value="">Choose a faculty member...</option>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
+                            <button type="submit" class="save-btn">Assign Faculty</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for adding new faculty -->
+<div id="addFacultyModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Add New Faculty</h3>
+        <form id="newFacultyForm">
+            <div class="form-group">
+                <label for="facultyName">Name:</label>
+                <input type="text" id="facultyName" required>
+            </div>
+            <div class="form-group">
+                <label for="facultyDesignation">Designation:</label>
+                <input type="text" id="facultyDesignation" required>
+            </div>
+            <div class="form-group">
+                <label for="facultyDepartment">Department:</label>
+                <select id="facultyDepartment" required>
+                    <option value="Department of CSE">Department of CSE</option>
+                    <option value="Department of ME">Department of ME</option>
+                    <option value="Department of Ecom">Department of Ecom</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="facultyEmail">Email:</label>
+                <input type="email" id="facultyEmail" required>
+            </div>
+            <button type="submit" class="save-btn">Add Faculty</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal for faculty details -->
+<div id="facultyDetailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="faculty-details-container">
+            <div class="faculty-profile">
+                <img src="/assets/images/faculty_placeholder.png" alt="Faculty" class="faculty-detail-img">
+                <div class="faculty-detail-info">
+                    <h3 id="modalFacultyName">Dr. John Smith</h3>
+                    <p id="modalFacultyDesignation">Associate Professor</p>
+                    <p id="modalFacultyDepartment">Department of CSE</p>
+                    <p id="modalFacultyEmail">john.smith@university.edu</p>
+                </div>
+            </div>
+            
+            <div class="faculty-courses">
+                <h3>Assigned Courses</h3>
+                <ul id="facultyCourseslist">
+                    <!-- Will be populated dynamically -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize local storage if needed
+        initializeLocalStorage();
+        
+        // Load profile information
+        loadProfileInfo();
+        
+        // Populate faculty table
+        populateFacultyTable();
+        
+        // Populate course dropdown
+        populateCourseDropdown();
+        
+        // Populate faculty dropdown
+        populateFacultyDropdownForAssignment();
+        
+        // Update department stats
+        updateDepartmentStats();
+        
+        // Set up add faculty button
+        document.getElementById('addFacultyBtn').addEventListener('click', function() {
+            document.getElementById('addFacultyModal').style.display = 'block';
+        });
+        
+        // Set up form submission for new faculty
+        document.getElementById('newFacultyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            addNewFaculty();
+        });
+        
+        // Set up form submission for faculty assignment
+        document.getElementById('assignFacultyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            assignFacultyToCourse();
+        });
+        
+        // Set up modal close buttons
+        document.querySelectorAll('.close-modal').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+    });
+</script>
+</body>
+</html> 

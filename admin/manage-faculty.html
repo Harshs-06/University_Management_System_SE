@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Faculty - University Management System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../assets/css/courses.css">
+    
+    <style>
+        .faculty-list {
+            margin-top: 20px;
+        }
+        
+        .faculty-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .faculty-info {
+            flex: 1;
+        }
+        
+        .faculty-info h3 {
+            margin-bottom: 8px;
+            font-size: 1.25rem;
+        }
+        
+        .faculty-info p {
+            margin-bottom: 5px;
+        }
+        
+        .faculty-actions {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .empty-message {
+            padding: 20px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar">
+                <h3 class="sidebar-title">Admin Dashboard</h3>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <i class="bi bi-house-door"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="manage-courses.html">
+                            <i class="bi bi-book"></i> Manage Courses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="manage-faculty.html">
+                            <i class="bi bi-person-badge"></i> Manage Faculty
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="manage-students.html">
+                            <i class="bi bi-people"></i> Manage Students
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="container">
+                    <h2>Manage Faculty</h2>
+                    
+                    <div class="controls-row">
+                        <div class="search-bar">
+                            <input type="text" id="searchFaculty" class="form-control" placeholder="Search faculty...">
+                        </div>
+                        
+                        <div class="filter-options">
+                            <select id="departmentFilter" class="form-select">
+                                <option value="">All Departments</option>
+                                <option value="1">CSE</option>
+                                <option value="2">ME</option>
+                                <option value="3">ECE</option>
+                            </select>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button id="newFacultyBtn" class="btn btn-primary">Add New Faculty</button>
+                        </div>
+                    </div>
+                    
+                    <div id="facultyList" class="faculty-list">
+                        <!-- Faculty list will be populated here -->
+                        <div class="empty-message">Loading faculty members...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="../assets/js/local_storage_db.js"></script>
+    <script src="../assets/js/manage_faculty.js"></script>
+</body>
+</html> 

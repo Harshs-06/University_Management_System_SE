@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grading</title>
+    <link rel="stylesheet" href="grade.css">
+    
+</head>
+<body>
+    <div class="maindiv">
+        <div class="navbar">
+            <img src="/assets/images/bml_logo.png" id="logo" >
+            <div id="dashboard" class="navitems">Dashboard</div>
+    <div id="fees" class="navitems">Fees</div>
+    <div id="check_profile" class="navitems">Profile</div>
+    <div id="courses" class="navitems">Courses</div>
+    <div id="hostel" class="navitems">Hostel</div>
+    <div id="result" class="navitems">Result</div>
+    <div id="notice" class="navitems">Notice</div>
+    <div id="schedule" class="navitems">Schedule</div>
+    
+    <div id="logout" class="navitems">Logout</div>
+        </div>
+        <div class="content">
+            <div class="filter-cards">
+                <div class="filter-card border-orange">
+                    <label class="label" for="total-students">Total Students</label>
+                    <div id="total-students" class="value" >0</div>
+                </div>
+                <div class="filter-card border-green">
+                    <label class="label" for="selected-batch">Batch</label>
+                    <select id="selected-batch" class="value"></select>
+                </div>
+                <div class="filter-card border-blue">
+                    <label class="label" for="selected-programme">Programme</label>
+                    <select id="selected-programme" class="value"></select>
+                </div>
+                <div class="filter-card border-purple">
+                    <label class="label" for="selected-subject">Subject</label>
+                    <select id="selected-subject" class="value"></select>
+                </div>
+            </div>
+            <div class="table-container" id="tableContainer"></div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script  type="module" src="grade.js"></script>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Course - UniCharm</title>
+    <link rel="stylesheet" href="/assets/css/dashboard_admin.css">
+    <link rel="stylesheet" href="/assets/css/manage_courses.css">
+    <script defer src="/assets/js/manage_courses.js"></script>
+</head>`
+<body>
+<div id="layoutContainer">
+    <div id="navigationBar">
+        <img src="/assets/images/bml_logo.png" width="130">
+        <div id="dashboard" onclick="window.location.href='/admin/dashboard.html'">Dashboard</div>
+        <div id="check_profile">Profile</div>
+        <div id="courses" class="active-nav" onclick="window.location.href='/admin/manage-courses.html'">Courses</div>
+        <div id="notice">Notice</div>
+        <div id="schedule">Schedule</div>
+        <div id="logout">Logout</div>
+    </div>
+    <div id="contentWrapper">
+        <div id="headerDiv">
+            <header>
+                <input type="text" id="searchBar" placeholder="Search...">
+                <div id="departmentSelection">
+                    <select id="departmentDropdown" onchange="updateSections()">
+                        <option value="CSE">CSE</option>
+                        <option value="ME">ME</option>
+                        <option value="Ecom">Ecom</option>
+                    </select>
+                    <select id="sectionDropdown"></select>
+                </div>                
+                <div id="profile">
+                    <img id="ProfilePic">
+                    <div id="ProfileUserInfo">
+                        <p id="Profile_userName"></p>
+                        <p id="Profile_userDetail"></p>
+                    </div>
+                </div>
+                <div id="headerIcons">
+                    <img id="settings_icon" src="/assets/images/settings_icon.png">
+                    <img id="notification_icon" src="/assets/images/notification_icon.png">
+                </div>
+            </header>
+        </div>
+        <div id="mainContent">
+            <div id="courseManageHeader">
+                <h1>Create New Course</h1>
+                <div class="header-buttons">
+                    <button id="checkStorageBtn" onclick="checkLocalStorage()">Check Storage</button>
+                    <button id="initStorageBtn" onclick="forceInitializeStorage()">Reset Storage</button>
+                    <button onclick="window.location.href='/admin/manage-courses.html'">Back to Courses</button>
+                </div>
+            </div>
+            
+            <div id="createCourseContainer">
+                <form id="newCourseForm" class="create-course-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newCourseCode">Course Code:</label>
+                            <input type="text" id="newCourseCode" required>
+                            <p class="form-help">Enter a unique course code (e.g., CSE101)</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseName">Course Name:</label>
+                            <input type="text" id="newCourseName" required>
+                            <p class="form-help">Full name of the course</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newCourseDept">Department:</label>
+                            <select id="newCourseDept" required>
+                                <option value="CSE">Computer Science (CSE)</option>
+                                <option value="ME">Mechanical Engineering (ME)</option>
+                                <option value="Ecom">E-Commerce (Ecom)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseBatch">Batch:</label>
+                            <select id="newCourseBatch" required>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                            </select>
+                            <p class="form-help">Academic year for this course</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newCourseCredits">Credits:</label>
+                            <input type="number" id="newCourseCredits" min="1" max="6" value="3" required>
+                            <p class="form-help">Number of credits (1-6)</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCourseFaculty">Assign Faculty:</label>
+                            <select id="newCourseFaculty" required>
+                                <option value="">Select Faculty</option>
+                                <!-- Will be populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="newCourseDescription">Description:</label>
+                        <textarea id="newCourseDescription" rows="5" required></textarea>
+                        <p class="form-help">Detailed description of the course content, objectives, and learning outcomes</p>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" onclick="window.location.href='/admin/manage-courses.html'" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="save-btn">Create Course</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize local storage if needed
+        initializeLocalStorage();
+        
+        // Load profile information
+        loadProfileInfo();
+        
+        // Populate faculty dropdown
+        populateFacultyDropdown();
+        
+        // Set up form submission
+        const newCourseForm = document.getElementById('newCourseForm');
+        newCourseForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            createNewCourse();
+        });
+    });
+</script>
+</body>
+</html> 
