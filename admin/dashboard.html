@@ -53,10 +53,6 @@
                     <img src="/assets/images/assessment_clash.svg" alt="Assessment">
                     <p>Assessment Management</p>
                 </div>
-                <!-- <div class="quick-access-item">
-                    <img src="/assets/images/faculty_performance.svg" alt="Faculty Performance">
-                    <p>Manage Faculty</p>
-                </div> -->
                 <div class="quick-access-item">
                     <img src="/assets/images/manage_course.svg" alt="Manage Course">
                     <p>Manage Course</p>
@@ -84,6 +80,7 @@
                             <input type="text" id="todoInput" placeholder="Add a new task...">
                             <button id="addTodoButton">Add</button>
                             <ul id="todoList"></ul>
+                            <button id="checkLocalStorage">Check Local Storage</button>
                         </div>
                     </div>
                     
@@ -104,28 +101,86 @@
         const addTodoButton = document.getElementById("addTodoButton");
         const todoInput = document.getElementById("todoInput");
         const todoList = document.getElementById("todoList");
+        const checkStorageButton = document.getElementById("checkLocalStorage");
 
+        // Load tasks from local storage when the page loads
+        loadTasks();
+
+        // Function to save tasks to local storage
+        function saveTasks() {
+            const tasks = [];
+            const taskElements = todoList.querySelectorAll("li");
+            
+            taskElements.forEach(task => {
+                // Get the text content without the "Remove" button text
+                const taskText = task.childNodes[0].nodeValue.trim();
+                tasks.push(taskText);
+            });
+            
+            localStorage.setItem("todoTasks", JSON.stringify(tasks));
+        }
+
+        // Function to load tasks from local storage
+        function loadTasks() {
+            const savedTasks = localStorage.getItem("todoTasks");
+            
+            if (savedTasks) {
+                const tasks = JSON.parse(savedTasks);
+                
+                tasks.forEach(taskText => {
+                    createTaskElement(taskText);
+                });
+            }
+        }
+
+        // Function to create a new task element
+        function createTaskElement(taskText) {
+            const listItem = document.createElement("li");
+            listItem.appendChild(document.createTextNode(taskText));
+            
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", function () {
+                todoList.removeChild(listItem);
+                saveTasks(); // Update local storage after removing a task
+            });
+
+            listItem.appendChild(removeButton);
+            todoList.appendChild(listItem);
+        }
+
+        // Add a new task
         addTodoButton.addEventListener("click", function () {
             const taskText = todoInput.value.trim();
             if (taskText !== "") {
-                const listItem = document.createElement("li");
-                listItem.textContent = taskText;
-                
-                const removeButton = document.createElement("button");
-                removeButton.textContent = "Remove";
-                removeButton.addEventListener("click", function () {
-                    todoList.removeChild(listItem);
-                });
-
-                listItem.appendChild(removeButton);
-                todoList.appendChild(listItem);
+                createTaskElement(taskText);
                 todoInput.value = "";
+                saveTasks(); // Save to local storage after adding a task
+            }
+        });
+
+        // Allow pressing Enter key to add a task
+        todoInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addTodoButton.click();
+            }
+        });
+
+        // Button to check local storage content
+        checkStorageButton.addEventListener("click", function() {
+            const savedTasks = localStorage.getItem("todoTasks");
+            if (savedTasks) {
+                alert("Current tasks in local storage: \n" + savedTasks);
+            } else {
+                alert("No tasks found in local storage.");
             }
         });
     });
+
     document.getElementById('mentorship-btn').addEventListener('click', function() {
-                window.location.href = '/admin/mentorship.html';
-            });
+        window.location.href = '/admin/mentorship.html';
+    });
     document.getElementById('od-btn').addEventListener('click', function() {
         window.location.href = '/admin/od-management.html';
     });
