@@ -61,30 +61,89 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
     
-    // Function to display date clash modal
+    // Function to display date clash modal with Mac OS style
     function showDateClashModal() {
+        // Create overlay and modal container
         const modal = document.createElement('div');
         modal.className = 'date-clash-modal';
-        modal.innerHTML = `
-            <div class="date-clash-content">
-                <h3>Date Clash Detected</h3>
-                <p>Date already occupied with another assessment.</p>
-                <button id="closeModal">OK</button>
-            </div>
-        `;
-        document.body.appendChild(modal);
         
-        // Add event listener to close button
-        document.getElementById('closeModal').addEventListener('click', function() {
-            modal.remove();
+        // Get formatted date for better display
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric'
         });
         
-        // Auto close after 3 seconds
-        setTimeout(() => {
-            if (document.body.contains(modal)) {
-                modal.remove();
+        // Create Mac OS styled modal content
+        modal.innerHTML = `
+            <div class="date-clash-content">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 16px;">
+                    <circle cx="12" cy="12" r="11" stroke="#FF3B30" stroke-width="2"/>
+                    <rect x="11" y="7" width="2" height="7" rx="1" fill="#FF3B30"/>
+                    <circle cx="12" cy="17" r="1" fill="#FF3B30"/>
+                </svg>
+                <h3>Date Clash Detected</h3>
+                <p>This date already has a scheduled assessment. Please select a different date for your new assessment.</p>
+                <div style="display: flex; justify-content: center; gap: 10px;">
+                    <button id="closeModal">OK</button>
+                </div>
+            </div>
+        `;
+        
+        // Add to DOM
+        document.body.appendChild(modal);
+        
+        // Prevent background scrolling
+        document.body.style.overflow = 'hidden';
+        
+        // Add keyboard shortcut (Escape key to close)
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                closeModalAction();
             }
-        }, 3000);
+        };
+        document.addEventListener('keydown', handleEscape);
+        
+        // Add click listener for close button
+        document.getElementById('closeModal').addEventListener('click', closeModalAction);
+        
+        // Add click outside to close
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModalAction();
+            }
+        });
+        
+        // Cleanup function for closing modal
+        function closeModalAction() {
+            // Add closing animation
+            modal.style.opacity = '0';
+            const content = modal.querySelector('.date-clash-content');
+            content.style.transform = 'scale(0.95)';
+            content.style.opacity = '0';
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                if (document.body.contains(modal)) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                    document.removeEventListener('keydown', handleEscape);
+                }
+            }, 200);
+        }
+        
+        // Auto close after 5 seconds
+        const autoCloseTimeout = setTimeout(() => {
+            if (document.body.contains(modal)) {
+                closeModalAction();
+            }
+        }, 5000);
+        
+        // Clear timeout if user interacts with modal
+        modal.addEventListener('click', () => {
+            clearTimeout(autoCloseTimeout);
+        });
     }
 
     // Load existing assessments when page loads

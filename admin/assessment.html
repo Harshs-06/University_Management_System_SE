@@ -42,18 +42,25 @@
                 <h2>Schedule a New Assessment</h2>
                 <div id="errorMessage" class="message-box" style="display: none;"></div>
                 
-                <label for="courseName">Course Name:</label>
-                <input type="text" id="courseName" placeholder="Enter Course Name">
+                <div class="form-group">
+                    <label for="courseName">Course Name:</label>
+                    <input type="text" id="courseName" placeholder="Enter Course Name">
+                </div>
 
-                <label for="assessmentDate">Assessment Date:</label>
-                <input type="date" id="assessmentDate">
+                <div class="form-group">
+                    <label for="assessmentDate">Assessment Date:</label>
+                    <input type="date" id="assessmentDate">
+                    <small class="date-helper-text">Select an available date for the assessment</small>
+                </div>
 
-                <label for="assessmentType">Assessment Type:</label>
-                <select id="assessmentType">
-                    <option value="quiz">Quiz</option>
-                    <option value="midterm">Midterm</option>
-                    <option value="final">Final</option>
-                </select>
+                <div class="form-group">
+                    <label for="assessmentType">Assessment Type:</label>
+                    <select id="assessmentType">
+                        <option value="quiz">Quiz</option>
+                        <option value="midterm">Midterm</option>
+                        <option value="final">Final</option>
+                    </select>
+                </div>
 
                 <button id="scheduleButton">Schedule Assessment</button>
             </div>
